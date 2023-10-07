@@ -1,0 +1,218 @@
+{% load customTags %}
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <style type="text/css">
+    @page {
+        size: A4 landscape;
+        margin: 20px;
+    }
+
+    .html {
+        font-size: 6pt;
+    }
+
+    .column {
+        float: left;
+        width: 33.33%;
+    }
+
+    .header:after {
+        content: "";
+        display: table;
+        clear: both;
+        align-content: center;
+    }
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #000000;
+        text-align: center;
+        padding: 8px;
+        font-size: 11pt;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #dddddd;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="column" style="color:#FFFFFF;">.</div>
+        <div class="column" style="text-align: center;">
+            <div style="right: 30px;position: absolute;margin-top:10px;">
+                <p style="margin-top: 0px;margin-bottom: 0px;">PRitn</p>
+                <p style="margin-top: 0px;margin-bottom: 0px;"><b>PRINT</b></p>
+                <p style="margin-top: 0px;margin-bottom: 0px;"><u>PRINT</u></p>
+                <p style="margin-top:3px;"><u>التاريخ : {{date|convert_to_arabic_numerals}}</u></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="title" style="text-align: center;margin-top:80px;">
+        <h3><u>الإختبار</u><h3>
+    </div>
+    <div class="table">
+      <table
+      class="table table-bordered table-striped"
+      style="text-align: center; width: 100%"
+      id="exmass_table">
+      <thead class="table-dark">
+        <th>الإختبار</th>
+        <th>المستوى</th>
+        <th>المادة</th>
+        <th>مدة الإختبار</th>
+        <th>التاريخ</th>
+        <th>الدرجة النهائية</th>
+        <th>عدد من أتموا الاختبار</th>
+        <th>متوسط الدرجات</th>
+      </thead>
+      <tbody class=" table-hover">
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            {{exam.name}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                {{exam.get_hard_level_display}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                {{exam.course.name|convert_to_arabic_numerals}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                {{exam.duration|convert_to_arabic_numerals}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                {{exam.time|date:'Y/m/d'|convert_to_arabic_numerals}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                {{exam.final_mark|convert_to_arabic_numerals}}
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                0
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                0
+            </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+    <div class="title" style="text-align: center;margin-top:80px;">
+        <h3><u>تقرير الدرجات</u><h3>
+    </div>
+    <div class="table">
+      <table
+      class="table table-bordered table-striped"
+      style="text-align: center; width: 100%"
+      id="exmass_table">
+      <thead class="table-dark">
+        <th>م</th>
+        <th>الرتبة</th>
+        <th>الإسم</th>
+        <th>تحقيق الشخصية</th>
+        <th>الدرجة</th>
+        <th>ملاحظات</th>
+      </thead>
+      <tbody class=" table-hover">
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+        <tr>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+            <td style="white-space: normal !important;word-wrap: break-word !important;">
+            </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+</body>
+</html>

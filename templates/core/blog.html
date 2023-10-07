@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">
+                إضافة منشور للمدونة
+            </h4>
+            <form method="post" class="mt-2">
+                <textarea name="body" id="mytextarea" >مرحبا!</textarea>
+                <hr>
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary  mt-2 float-end" value="نشر">
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+<script>
+      ClassicEditor
+            .create( document.querySelector( '#mytextarea' ),{
+              language: 'ar'
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+</script>
+{% endblock javascript %}

@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="direction: rtl;">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   {{title}}
+  </title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <link href="{% static 'images/LOGO.png' %}" rel="shortcut icon" />
+   <!-- App favicon -->
+   <link href="/images/favicon.ico" rel="shortcut icon"/>
+   <!-- Bootstrap Css -->
+   <link href="{% static 'css/bootstrap-rtl.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Icons Css -->
+    <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet"
+    type="text/css" />
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/sweet-alert/sweetalert.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/toastr/toastr.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/flatpickr.min.css' %}">
+
+    <!-- App Css-->
+    <link href="{% static 'css/app-rtl.min.css' %}" rel="stylesheet" type="text/css"/>
+   </link>
+  </meta>
+  <style>
+        @font-face {
+        font-family: "Cairo-Bold";
+        font-style: normal;
+        font-weight: 200;
+        font-display: swap;
+        src: local("Cairo"),
+          url("{% static 'fonts/Cairo-Bold.ttf' %}") format("woff2");
+        unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+          U+FB50-FDFF, U+FE80-FEFC;
+      }
+      @font-face {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 200;
+        font-display: swap;
+        src: local("Roboto"),
+          url("{% static 'fonts/RobotoSlab-Regular.ttf' %}") format("woff2");
+        unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+          U+FB50-FDFF, U+FE80-FEFC;
+      }
+      main,nav,footer,body {
+        font-family: "Cairo-Bold", sans-serif !important;
+      }
+</style>
+ </head>
+ <body>
+  <!-- <body data-layout="horizontal" data-topbar="colored"> -->
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+   <header id="page-topbar">
+    <div class="navbar-header">
+     <div class="d-flex">
+      <!-- LOGO -->
+      <div class="navbar-brand-box">
+       <a class="logo logo-dark" href="index.html">
+        LOGO
+<!--        <span class="logo-sm">-->
+<!--         <img alt="" height="22" src="/images/logo-sm.png"/>-->
+<!--        </span>-->
+<!--        <span class="logo-lg">-->
+<!--         <img alt="" height="20" src="/images/logo-dark.png"/>-->
+<!--        </span>-->
+       </a>
+       <a class="logo logo-light" href="index.html">
+        LOGO
+<!--        <span class="logo-sm">-->
+<!--         <img alt="" height="22" src="/images/logo-sm.png"/>-->
+<!--        </span>-->
+<!--        <span class="logo-lg">-->
+<!--         <img alt="" height="20" src="/images/logo-light.png"/>-->
+<!--        </span>-->
+       </a>
+      </div>
+      <button class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn" type="button">
+       <i class="fa fa-fw fa-bars">
+       </i>
+      </button>
+      <!-- App Search-->
+
+     </div>
+     <div class="d-flex">
+      <div class="dropdown d-none d-lg-inline-block ms-1">
+       <button class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen" type="button">
+        <i class="uil-minus-path">
+        </i>
+       </button>
+      </div>
+      <div class="dropdown d-inline-block">
+       <button aria-expanded="false" aria-haspopup="true" class="btn header-item waves-effect" data-bs-toggle="dropdown" id="page-header-user-dropdown" type="button">
+<!--        <img alt="Header Avatar" class="rounded-circle header-profile-user" src="/images/users/avatar-4.jpg"/>-->
+        <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">
+         {{request.user}}
+        </span>
+        <i class="uil-angle-down d-none d-xl-inline-block font-size-15">
+        </i>
+       </button>
+       <div class="dropdown-menu dropdown-menu-end">
+        <!-- item-->
+        <a class="dropdown-item" href="#">
+         <i class="uil uil-user-circle font-size-18 align-middle text-muted me-1">
+         </i>
+         <span class="align-middle">
+          عرض البيانات
+         </span>
+        </a>
+        <a class="dropdown-item" href="#">
+         <i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted">
+         </i>
+         <span class="align-middle">
+          تسجيل الخروج
+         </span>
+        </a>
+       </div>
+      </div>
+
+     </div>
+    </div>
+   </header>
+   <div class="vertical-menu">
+    <!-- LOGO -->
+    <div class="navbar-brand-box">
+     <a class="logo logo-dark" href="{% url 'home' %}">
+      <span class="logo-sm">
+       <img alt="" height="25" src="{% static 'images/LOGO.png' %}">
+      </span>
+      <span class="logo-lg text-warning">
+       <b class="text-black">Exams</b>
+      </span>
+     </a>
+    </div>
+    <button class="btn btn-sm px-3 font-size-16 header-item waves-effect vertical-menu-btn" type="button">
+     <i class="fa fa-fw fa-bars">
+     </i>
+    </button>
+    <div class="sidebar-menu-scroll" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: -15px; bottom: 0px;"><div class="simplebar-content-wrapper" style="height: 100%; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 0px;">
+     <!--- Sidemenu -->
+     <div id="sidebar-menu">
+      <!-- Left Menu Start -->
+      <ul class="metismenu list-unstyled" id="side-menu">
+
+       <li>
+        <a href="{% url 'home' %}">
+         <i class="dripicons-home">
+         </i>
+         <span>
+          الصفحة الرئيسية
+         </span>
+        </a>
+       </li>
+
+       <li>
+        <a class="has-arrow waves-effect" href="javascript: void(0);">
+         <i class="dripicons-pencil">
+         </i>
+         <span>
+          الإختبارات
+         </span>
+        </a>
+        <ul aria-expanded="false" class="sub-menu">
+         <li>
+          <a href="{% url 'exams' %}">
+           إضافة إختبار
+          </a>
+         </li>
+        </ul>
+       </li>
+       </li>
+       <li>
+        <a class="has-arrow waves-effect" href="javascript: void(0);">
+         <i class="dripicons-question">
+         </i>
+         <span>
+          بنك الأسئلة
+         </span>
+        </a>
+        <ul aria-expanded="false" class="sub-menu">
+         <li>
+          <a href="{% url 'questions' %}">
+           إضافة سؤال
+          </a>
+         </li>
+         <li>
+          <a href="{% url 'questions_bank' %}">
+           بنك الأسئلة
+          </a>
+         </li>
+        </ul>
+       </li>
+       </li>
+       <li>
+        <a class="has-arrow waves-effect" href="javascript: void(0);">
+         <i class="dripicons-graduation">
+         </i>
+         <span>
+          النتائج والتقارير
+         </span>
+        </a>
+        <ul aria-expanded="false" class="sub-menu">
+         <li>
+          <a href="#">
+           نتائج الاختبارات
+          </a>
+         </li>
+        </ul>
+       </li>
+       </li>
+       <li>
+        <a class="has-arrow waves-effect" href="javascript: void(0);">
+         <i class="dripicons-article">
+         </i>
+         <span>
+          المدونة
+         </span>
+        </a>
+        <ul aria-expanded="false" class="sub-menu">
+         <li>
+          <a href="{% url 'blog' %}">
+           إضافة منشور
+          </a>
+         </li>
+         <li>
+          <a href="{% url 'blog' %}">
+           كل المنشورات
+          </a>
+         </li>
+        </ul>
+       </li>
+       </li>
+      </ul>
+     </div>
+     <!-- Sidebar -->
+    </div></div></div></div><div class="simplebar-placeholder" style="width: auto; height: 1256px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="transform: translate3d(0px, 0px, 0px); display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 274px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div></div>
+   </div>
+   <!-- ========== Left Sidebar Start ========== -->
+
+   <!-- Left Sidebar End -->
+   <!-- ============================================================== -->
+   <!-- Start right Content here -->
+   <!-- ============================================================== -->
+   <div class="main-content">
+    <div class="page-content">
+     <div class="container-fluid">
+      {% block content %}
+      {% endblock %}
+     </div>
+     <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    <footer class="footer">
+     <div class="container-fluid">
+      <div class="row">
+       <div class="col-sm-6">
+        <script>
+         document.write(new Date().getFullYear())
+        </script>
+        © HAZEM.
+       </div>
+       <div class="col-sm-6">
+        <div class="text-sm-end d-none d-sm-block">
+         كل الحقوق محفوظة
+        </div>
+       </div>
+      </div>
+     </div>
+    </footer>
+   </div>
+   <!-- end main content-->
+  </div>
+  <!-- END layout-wrapper -->
+  <!-- JAVASCRIPT -->
+  <script src="{% static 'libs/jquery/jquery.min.js' %}">
+  </script>
+  <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}">
+  </script>
+  <script src="{% static 'libs/metismenu/metisMenu.min.js' %}">
+  </script>
+  <script src="{% static 'libs/simplebar/simplebar.min.js' %}">
+  </script>
+  <script src="{% static 'libs/node-waves/waves.min.js' %}">
+  </script>
+  <script src="{% static 'libs/waypoints/lib/jquery.waypoints.min.js' %}">
+  </script>
+  <script src="{% static 'libs/jquery.counterup/jquery.counterup.min.js' %}">
+  </script>
+  <script src="{% static 'libs/fitty/fitty.min.js' %}">
+  </script>
+  <script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}">
+  </script>
+  <script src="{% static 'libs/select2/js/select2.min.js' %}">
+  </script>
+  <script src="{% static 'libs/sweet-alert/sweetalert.min.js' %}">
+  </script>
+  <script src="{% static 'libs/underscore/underscore-min.js' %}">
+  </script>
+  <script src="{% static 'libs/toastr/toastr.min.js' %}">
+  </script>
+  <script src="{% static 'libs/jquery-validate/jquery.validate.min.js' %}">
+  </script>
+  <script src="{% static 'libs/parsleyjs/parsley.min.js' %}">
+  </script>
+  <script src="{% static 'libs/ekko-lightbox.min.js' %}"></script>
+  <script src="{% static 'js/flatpickr.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <!-- App js -->
+  <script src="{% static 'js/app.js' %}">
+  </script>
+     <script src="{% static 'libs/jquery.repeater/jquery.repeater.min.js' %}">
+    </script>
+    <script src="{% static 'libs/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'js/form-repeater.int.js' %}">
+    </script>
+  <!-- Main js -->
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/core.js' %}"></script>
+  </script>
+  <!-- App js -->
+  </script>
+
+      {% block javascript %}
+
+      {% endblock javascript %}
+ </body>
+</html>

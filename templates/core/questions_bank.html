@@ -1,0 +1,482 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load customTags %}
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title text-center font-size-24">بنك الأسئلة</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+      <div class="card">
+          <div class="card-body">
+            <!-- <div class="row mb-2">
+              <div class="col-md-2">
+                <button class="btn btn-success waves-effect waves-light" type="button"
+                data-bs-target="#exampleModalScrollable"
+                data-bs-toggle="modal">
+                  <i class="mdi mdi-plus me-1">
+                  </i>
+                  إضافة سؤال
+                 </button>              
+                </div>
+              <form class="d-inline-flex col-10" method="GET" novalidate>
+                <div class="col-md-5 ">
+                  <div class="search-box ms-2">
+                      <div class="position-relative">
+                          <input class="form-control rounded bg-light border-0" placeholder="السؤال..."
+                              type="text" value="{{request.GET.person_name}}" name="person_name" />
+                          <i class="mdi mdi-magnify search-icon"> </i>
+                      </div>
+                  </div>
+                </div>
+              <div class="col-md-5">
+                  <select class="form-select ms-2" id="state" name="state">
+                   <option selected="" value="">
+                    الكل ({{all_officers|convert_to_arabic_numerals}})
+                   </option>
+                   <option value="1" {% if request.GET.state == '1' %} selected {% endif %}>
+                    سهل ({{in_officers|convert_to_arabic_numerals}})
+                   </option>
+                   <option value="2" {% if request.GET.state == '2' %} selected {% endif %}>
+                    متوسط({{in_out_officers|convert_to_arabic_numerals}})
+                   </option>
+                   <option value="2" {% if request.GET.state == '2' %} selected {% endif %}>
+                    صعب({{in_out_officers|convert_to_arabic_numerals}})
+                   </option>
+
+                  </select>
+              </div>
+              </form>
+          </div> -->
+          <div class="row">
+            <div class="col-md-4">
+             <div>
+              <button class="btn btn-success waves-effect waves-light" type="button"
+              data-bs-target="#exampleModalScrollable"
+              data-bs-toggle="modal">
+                <i class="mdi mdi-plus me-1">
+                </i>
+                إضافة سؤال
+               </button>   
+             </div>
+            </div>
+            <div class="col-md-8">
+             <div class="float-end">
+              <div class="mb-3">
+                <form class="d-inline-flex" method="GET" novalidate>
+                    <div class="search-box">
+                        <div class="position-relative">
+                            <input class="form-control rounded bg-light border-0" placeholder="السؤال..."
+                                type="text" value="{{request.GET.question}}" name="question" />
+                            <i class="mdi mdi-magnify search-icon"> </i>
+                        </div>
+                    </div>
+                    </form>
+              </div>
+             </div>
+            </div>
+           </div>
+              <div class="table-responsive mb-4">
+                  <table class="table table-centered table-nowrap table-striped mb-0">
+                      <thead class="table-dark">
+                          <tr>
+                              <th scope="col">
+                                  م
+                              </th>
+                              <th scope="col">
+                                  السؤال
+                              </th>
+                              <th scope="col">
+                                المادة
+                            </th>
+                              <th scope="col">
+                                  المستوى
+                              </th>
+                              <th scope="col">
+                                  توقيت الإضافة
+                              </th>
+                              <th scope="col">
+                                عرض
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody class="table-hover" id="exams_body" style="font-size: 16px;">
+                          {% for question in questions %}
+                          <tr>
+                            <td style="white-space: normal !important;word-wrap: break-word !important;">
+                              {{question.id|convert_to_arabic_numerals}}
+                              </td>
+                              <td style="white-space: normal !important;word-wrap: break-word !important;">
+                              {{question.text|convert_to_arabic_numerals}}
+                              </td>
+                              <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                {{question.course.name|convert_to_arabic_numerals}}
+                                </td>
+                              <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                <span class="badge {% if question.hard_level == '1' %} bg-soft-success {% elif question.hard_level == '2' %} bg-soft-warning {% else %} bg-soft-danger {% endif %}" style="font-size: 14px;">
+                                  {% if question.hard_level == '1' %}سهل{% elif question.hard_level == '2' %}متوسط{% else %}صعب{% endif %}
+                                </span>
+                              </td>
+                              <td style="white-space: normal !important;word-wrap: break-word !important; font-size: 16px;">
+                                  {{question.created_at|date:'Y/m/d'|convert_to_arabic_numerals}}
+                                  <td style="white-space: nowrap;">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a class="text-primary" href="javascript:view_question_details({{question.id}})">
+                                                <i class="uil uil-eye font-size-22">
+                                                </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              <div class="row mt-4">
+                  <div class="col-sm-6">
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="float-sm-end">
+                          <ul class="pagination pagination-rounded justify-content-center mt-4">
+                              <li class="page-item {% if current_page|into_int == 1|into_int %}disabled{% endif %}">
+                                  <a class="page-link"
+                                  href="{{current_page|sub:1|get_page_path:request.get_full_path}}">
+                                      <i class="mdi mdi-chevron-right">
+                                      </i>
+                                  </a>
+                              </li>
+                              {% for x in current_page|my_pages:pages %}
+                              <li class="page-item {% if  x|into_str == current_page|into_str %}active{% endif %}">
+                                  
+                                  <a class="page-link"
+                                  href="{{x|get_page_path:request.get_full_path}}">
+                                      {{x}}
+                                  </a>
+                              </li>
+                              {% endfor %}
+                              <li class="page-item {% if current_page|add:1 > pages|into_int %}disabled{% endif %}">
+                                  <a class="page-link"
+                                  href="{{current_page|add:1|get_page_path:request.get_full_path}}">
+                                      <i class="mdi mdi-chevron-left">
+                                      </i>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div
+  aria-labelledby="exampleModalScrollableTitle"
+  class="modal fade"
+  id="exampleModalScrollable"
+  tabindex="-1"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">إضافة سؤال جديد</h5>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          type="button"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="repeater needs-validation" id ="question-form" enctype="multipart/form-data" autocomplete="off" novalidate>
+          <div class="row">
+            <div class="col-7">
+              <div class="mb-3">
+                <label class="form-label"> السؤال </label>
+                <input class="form-control" id="question" name="question" type="text" required/>
+                <div class="invalid-feedback">
+                  يرجى إضافة السؤال
+              </div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="mb-3">
+                <label class="form-label">
+                  المستوى
+              </label>
+              <select class="form-select" id="question_level">
+                  <option value="1">
+                      سهل
+                  </option>
+                  <option value="2">
+                      متوسط
+                  </option>
+                  <option value="3">
+                      صعب
+                  </option>
+              </select>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="mb-3">
+                <label class="form-label">
+                  المادة
+              </label>
+              <select class="form-select" id="course">
+                  <option value="1">
+                      لغة انجليزية
+                  </option>
+              </select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="inner-repeater mb-4">
+            <div class="inner form-group" data-repeater-list="questions-group">
+             <label class="form-label">
+              الإجابات
+             </label>
+             <div class="inner mb-3 row align-items-center" data-repeater-item="">
+                <div class="col-md-8 col-8">
+                  <input class="inner form-control" id="answer" name ="answer" type="text">
+                </div>
+                <div class="col-md-2 col-2">
+                    <input class="inner form-check-input" id="is_true" name ="is_true" type="checkbox">
+                    <label for="">صحيحة</label>
+                  </div>
+                <div class="col-md-2 col-2">
+                  <div class="d-grid">
+                    <input class="btn btn-danger inner" data-repeater-delete="" type="button" value="حذف">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input class="btn btn-success inner" data-repeater-create="" type="button" value="إضافة إجابة">
+           </div>
+        <div class="modal-footer">
+        <button class="btn btn-light" data-bs-dismiss="modal" type="button">
+          إغلاق
+        </button>
+        <button class="btn btn-primary waves-effect waves-light" type="submit">حفظ السؤال</button>
+      </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div
+  aria-labelledby="editQuestionModalTitle"
+  class="modal fade"
+  id="editQuestionModal"
+  tabindex="-1"
+  style="display: none"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editQuestionModalTitle">تعديل السؤال</h5>
+        <button
+          aria-label="Close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          type="button"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="edit-question-form needs-validation" id ="edit-question-form" enctype="multipart/form-data" autocomplete="off" novalidate>
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-7">
+              <div class="mb-3">
+                <label class="form-label"> السؤال </label>
+                <input class="form-control" id="edit-question" name="edit-question" type="text" required/>
+                <div class="invalid-feedback">
+                  يرجى إضافة السؤال
+              </div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="mb-3">
+                <label class="form-label">
+                  المستوى
+              </label>
+              <select class="form-select" id="edit-question_level">
+                  <option value="1">
+                      سهل
+                  </option>
+                  <option value="2">
+                      متوسط
+                  </option>
+                  <option value="3">
+                      صعب
+                  </option>
+              </select>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="mb-3">
+                <label class="form-label">
+                  المادة
+              </label>
+              <select class="form-select" id="edit-course">
+                  <option value="1">
+                      لغة انجليزية
+                  </option>
+              </select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="mb-4">
+            <div class="form-group" id="answers-group">
+             <label class="form-label">
+              الإجابات
+             </label>
+             <div class="mb-3 row align-items-center edited-answer" >
+                <div class="col-md-10 col-10">
+                  <input class="form-control" id="edit-answer" name ="edit-answer" type="text">
+                </div>
+                <div class="col-md-2 col-2">
+                    <input class="form-check-input" id="edit_is_true" name ="edit_is_true" type="checkbox">
+                    <label for="">صحيحة</label>
+                  </div>
+              </div>
+            </div>
+           </div>
+        <div class="modal-footer">
+        <button class="btn btn-light" data-bs-dismiss="modal" type="button">
+          إغلاق
+        </button>
+        <button class="btn btn-primary waves-effect waves-light" type="submit">حفظ السؤال</button>
+      </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+  $(".flatpickr").flatpickr({
+    });
+
+    function getCSRFToken() {
+    var csrfToken = null;
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return csrfToken;
+}
+
+$('#question-form').submit(function (e) {
+  e.preventDefault();
+  const csrf = document.getElementsByName("csrfmiddlewaretoken");
+  if ($('#question-form').valid()) {
+    var answersData = {'question':$("#question").val(),
+                        'question_level':$("#question_level").val(),
+                        'course':$("#course").val(),
+                        'answers':[],
+                        'csrfmiddlewaretoken': csrf[0].value};
+    var innerItems = document.querySelectorAll(".inner[data-repeater-item]");
+    innerItems.forEach(function (innerItem, index) {
+    var answerInput = innerItem.querySelector('input[id="answer"]');
+    var isTrueCheckbox = innerItem.querySelector('input[id="is_true"]');
+    var answerValue = answerInput.value;
+    var isTrueValue = isTrueCheckbox.checked;
+    answersData['answers'][index] = {
+      answer: answerValue,
+      isTrue: isTrueValue,
+    };
+  });
+  $.ajax({
+            method: 'POST',
+            url: window.location.href,
+            contentType: 'application/json',
+            data:JSON.stringify({ data: answersData }) ,
+            contentType: false,
+            processData: false,
+            headers: {
+        'X-CSRFToken': getCSRFToken()
+    },
+            success: function (data) {
+              addToExam(data);
+                toastr["success"]("تم إضافة السؤال لبنك الأسئلة", "عملية ناجحة");
+            },
+            error: function (error_data) {
+                toastr["error"](error_data.responseText, "خطأ!");
+            }
+        });
+    }
+  });
+
+  function addToExam(data){
+  var examsBody = $('#exams_body');
+  var newRow = $('<tr>');
+  newRow.append('<td>' + data.id + '</td>');
+  newRow.append('<td>' + data.question + '</td>');
+  newRow.append('<td>' + data.course + '</td>');
+  newRow.append('<td>' + data.hard_level + '</td>');
+  newRow.append('<td>' + data.added_at + '</td>');
+  newRow.append('<td><ul class="list-inline mb-0"><li class="list-inline-item"><a class="text-primary" href="javascript:view_reply_details(' + data.off_reply_code + ',\'view\')"><i class="uil uil-eye font-size-22"></i></a></li></ul></td>');
+  examsBody.append(newRow);
+}
+
+function view_question_details(id){
+  $("#editQuestionModal").modal('show')
+  $.ajax({
+            method: 'GET',
+            data: {
+            'id': id,
+            'type': "get_data",
+                  },
+            url: window.location.href,
+            success: function (data) {
+              console.log(data)
+              $('#edit-question').val(data.question);
+  $('#edit-question_level').val(data.hard_level);
+  $('#edit-course').val(data.course);
+  $('#answers-group').empty();
+  $('#answers-group').append(`<label class="form-label">الإجابات</label>`);
+  data.answers.forEach(function (answer, index) {
+    var answerHtml = `
+      <div class="mb-3 row align-items-center edited-answer">
+        <div class="col-md-10 col-10">
+          <input class="form-control" id="edit-answer-${index}" name="edit-answer" type="text" value="${answer.answer}">
+        </div>
+        <div class="col-md-2 col-2">
+          <input class="form-check-input" id="edit_is_true-${index}" name="edit_is_true" type="checkbox" ${answer.isTrue ? 'checked' : ''}>
+          <label for="">صحيحة</label>
+        </div>
+      </div>
+    `;
+    $('#answers-group').append(answerHtml);
+  });
+},
+            error: function (error_data) {
+                toastr["error"](error_data.responseText, "خطأ!");
+            }
+        });
+}
+</script>
+{% endblock javascript %}

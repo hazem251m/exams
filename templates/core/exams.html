@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load customTags %}
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    إضافة اختبار
+                </h4>
+                <p class="card-title-desc">
+                    يرجى إضافة اسم الاختبار ومدته والدرجة النهائية ومدة الاختبار ودرجة الصعوبة
+                </p>
+                <form class="needs-validation" method="POST" id ="addExamForm" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom01">
+                                    اسم الاختبار
+                                </label>
+                                <input class="form-control" id="validationCustom01" name="exam_name" placeholder="الاسم" required  type="text">
+                                <div class="invalid-feedback">
+                                    يرجى إضافة إسم الاختبار
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    مستوى الإختبار
+                                </label>
+                                <select class="form-select" name="exam_level">
+                                    <option value="1">
+                                        سهل
+                                    </option>
+                                    <option value="2">
+                                        متوسط
+                                    </option>
+                                    <option value="3">
+                                        صعب
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    المادة
+                                </label>
+                                <select class="form-select" name="course" required>
+                                    {% for course in courses %}
+                                    <option value="{{course.id}}">
+                                        {{course.name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom02">
+                                    مدة الاختبار
+                                </label>
+                                <input class="form-control" id="validationCustom02" name="exam_duration" placeholder="مدة الاختبار بالدقائق"required="" type="number" min="1">
+                                <div class="invalid-feedback">
+                                    يرجى إضافة مدة الاختبار
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom04">
+                                    الدرجة النهائية
+                                </label>
+                                <input class="form-control" id="validationCustom04" placeholder="درجة الاختبار النهائية من 0 إلى 100" required="" name="exam_final_mark" type="number" min="1" max="100">
+                                <div class="invalid-feedback">
+                                    يرجى إضافة إضافة الدرجة النهائية للاختبار بين 0 و 100
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label" for="validationCustom05">
+                                    توقيت الاختبار
+                                </label>
+                                <input class="form-control text-start flatpickr" id="validationCustom05" name = "exam_date" placeholder="تاريخ إتاحة الاختبار" type="text" value="{{today}}" required>
+                                <div class="invalid-feedback">
+                                    يرجى إضافة توقيت إتاحة الاختبار
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </form>
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive mb-4">
+                    <table class="table table-centered table-nowrap table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">
+                                    الإسم
+                                </th>
+                                <th scope="col">
+                                    المستوى
+                                </th>
+                                <th scope="col">
+                                    المادة
+                                </th>
+                                <th scope="col">
+                                    مدة الإختبار
+                                </th>
+                                <th scope="col">
+                                    التوقيت
+                                </th>
+                                <th scope="col">
+                                    الدرجة النهائية
+                                </th>
+                                <th scope="col">
+                                    عدد من أتم الإختبار
+                                </th>
+                                <th scope="col">
+                                    متوسط الدرجات
+                                </th>
+                                <th scope="col">
+                                    العمليات
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-hover" id="exams_body">
+                            {% for exam in exams %}
+                            <tr>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                {{exam.name}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    {{exam.get_hard_level_display}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    {{exam.course.name}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    {{exam.duration|convert_to_arabic_numerals}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    {{exam.time|date:'Y/m/d'|convert_to_arabic_numerals}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    {{exam.final_mark|convert_to_arabic_numerals}}
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    0
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    0
+                                </td>
+                                <td style="white-space: normal !important;word-wrap: break-word !important;">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item dropdown">
+                                        <a aria-haspopup="true" class="text-muted dropdown-toggle font-size-18 px-2" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                          <i class="uil uil-ellipsis-v">
+                                          </i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                          <a class = "dropdown-item mr-2" href="">تعديل</a>
+                                          <a class = "dropdown-item mr-2" href="">حذف</a>
+                                          <a class = "dropdown-item mr-2" href="">عرض</a>
+                                          <a class = "dropdown-item mr-2" href="{% url 'generate_report' exam.id %}" target="_blank">طباعة التقرير</a>
+                                         </div>
+                                        </li>
+                                       </ul>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-6">
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="float-sm-end">
+                            <ul class="pagination pagination-rounded justify-content-center mt-4">
+                                <li class="page-item {% if current_page|into_int == 1|into_int %}disabled{% endif %}">
+                                    <a class="page-link"
+                                    href="{{current_page|sub:1|get_page_path:request.get_full_path}}">
+                                        <i class="mdi mdi-chevron-right">
+                                        </i>
+                                    </a>
+                                </li>
+                                {% for x in current_page|my_pages:pages %}
+                                <li class="page-item {% if  x|into_str == current_page|into_str %}active{% endif %}">
+                                    
+                                    <a class="page-link"
+                                    href="{{x|get_page_path:request.get_full_path}}">
+                                        {{x}}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                <li class="page-item {% if current_page|add:1 > pages|into_int %}disabled{% endif %}">
+                                    <a class="page-link"
+                                    href="{{current_page|add:1|get_page_path:request.get_full_path}}">
+                                        <i class="mdi mdi-chevron-left">
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+  toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-left",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": 300,
+  "hideDuration": 1000,
+  "timeOut": 1000,
+  "extendedTimeOut": 500,
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut",
+  "rtl": true
+};
+
+$(".flatpickr").flatpickr({
+    });
+
+$('#addExamForm').submit(function (e) {
+  e.preventDefault();
+  if ($('#addExamForm').valid()) {
+    
+      $.ajax({
+          method: 'POST',
+          url: window.location.href,
+          data: new FormData(this),
+          contentType: false,
+          processData: false,
+          success: function (data) {
+          $('#addExamForm').trigger("reset");
+          toastr["success"]("تم تسجيل الإختبار بنجاح", "عملية ناجحة");
+      $('#addExamForm').trigger("reset");
+      $('#addExamForm').attr('class', 'needs-validation');
+          },
+          error: function (error_data) {
+            toastr["error"](error_data.responseText, "خطأ!");
+          }
+      });
+  }
+});
+
+</script>
+{% endblock javascript %}
